@@ -2,9 +2,8 @@ import requests
 
 def count_word_at_url(url):
     """
-    это функция для примера как вызывает async
-    :param url:
-    :return:
+    Это функция для примера
+    как вызывает async
     """
     response = requests.get(url)
 

@@ -1,34 +1,36 @@
-import asyncio
 import os
 import time
 from datetime import datetime
+import asyncio
 
-def dish(num, prepare, wait):
-    """
 
-    :param num: номер блюда по порядку
-    :param prepare: время на подготовку
-    :param wait: ожидание готовности
-    :return:
+async def dish(num, prepare, wait):
     """
-    print(f'Подготовка к приготовлению блюда {num} - {datetime.now().strftime("%H:%S")}. Приготовление {prepare} минут')
+    num: номер блюда по порядку
+    prepare: время на подготовку
+    wait: ожидание готовности
+    """
+    print(f'{datetime.now().strftime("%H:%S")} - подготовка к приготовлению блюда {num} - {prepare} мин.')
     time.sleep(prepare)
-    print(f'Начало приготовления блюда {num} - {datetime.now().strftime("%H:%S")}. Ожидание {num} {wait} блюда')
+    print(f'Начало приготовления блюда {num} - {datetime.now().strftime("%H:%S")}. Ожидание блюда {num} {wait} мин.')
     await asyncio.sleep(wait)
-    print(f'В {datetime.now().strftime("%H:%S")}. блюдо {num} готово')
+    print(f'В {datetime.now().strftime("%H:%S")}. блюдо {num} готово.')
 
-async def gotovim_bludo():
+
+async def main():
     tasks = [
-    asyncio.create_task(dish(1, 2, 3)),
-    asyncio.create_task(dish(2, 5, 10)),
-    asyncio.create_task(dish(3, 3, 5))
+        asyncio.create_task(dish(1, 2, 3)),
+        asyncio.create_task(dish(2, 5, 10)),
+        asyncio.create_task(dish(3, 3, 5))
     ]
     await asyncio.gather(*tasks)
 
+
 if __name__ == '__main__':
     t0 = time.time()  # время начало работы
-    if os.name ==
+    if os.name == 'nt':
+        asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
+    asyncio.run(main())  # запустили асинхронное приготовление
     delta = int(time.time() - t0)  # затраченное время
-    print(f'В {datetime.now().strftime("%H:%S")} все готово')
+    print(f'В {datetime.now().strftime("%H:%S")} мы закончили')
     print(f'Затрачено времени - {delta}')
-
